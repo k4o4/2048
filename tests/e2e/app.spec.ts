@@ -79,5 +79,41 @@ test('no console errors on many key moves', async ({ page }) => {
   expect(errors, errors.join('\n')).toHaveLength(0);
 });
 
+test('game over shows modal and New Game button', async ({ page }) => {
+  await page.goto('/');
+  // seed a blocked board (no merges, no empties)
+  await page.evaluate(() => {
+    // @ts-ignore
+    window.__setBoard([
+      [2,4,8,16],
+      [32,64,128,256],
+      [2,4,8,16],
+      [32,64,128,256]
+    ]);
+  });
+  // any move is a no-op; ensure engine detects Lost (your engine sets Lost on no-op if no legal moves)
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.getByTestId('modal')).toBeVisible();
+  await expect(page.getByTestId('modal-score')).toContainText(/Score:/);
+});
 
-
+test('modal shows New record when score beats best', async ({ page }) => {
+  await page.goto('/');
+  // make best very low so current score beats it
+  await page.evaluate(() => localStorage.setItem('2048.bestScore', '0'));
+  // create a quick merge to ensure score > 0, then lose
+  await page.evaluate(() => {
+    // @ts-ignore
+    window.__setBoard([
+      [2,2,4,8],       // merging first two produces +4
+      [32,64,128,256],
+      [2,4,8,16],
+      [32,64,128,256]
+    ]);
+  });
+  await page.keyboard.press('ArrowLeft'); // merge occurs (+4), then no more moves → Lost
+  await expect(page.getByTestId('modal-score')).toContainText(/New record:\s*\d+/);
+  // Restart
+  await page.getByTestId('modal-new').click();
+  await expect(page.getByTestId('turn')).toHaveAttribute('data-turn', '0'); // or board reset assertion you already use
+});

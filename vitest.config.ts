@@ -12,7 +12,8 @@ export default defineConfig({
             'tests/property/**/*.spec.ts',
         ],
         exclude: ['tests/e2e/**', 'node_modules/**', 'dist/**'],
-        environment: 'node',
+        environment: 'jsdom',
+
         coverage: {
             provider: 'v8',
             reporter: ['text', 'html'],

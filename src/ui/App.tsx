@@ -8,6 +8,8 @@ import {
   type GameState,
 } from '../../engine';
 import { makeUISpawnScript } from '../spawn';
+import { Modal } from './Modal';
+import { useBestScore } from './useBestScore';
 import './styles.css';
 
 function useKey(handler: (d: Direction) => void) {
@@ -59,25 +61,13 @@ export function App() {
 
   const [state, setState] = useState<GameState>(() => initializeGameState());
   const [moveCount, setMoveCount] = useState(0);
-  const [best, setBest] = useState(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const saved = localStorage.getItem('2048-best');
-      return saved ? parseInt(saved, 10) : 0;
-    }
-    return 0;
-  });
-
-  // Update best score when current score increases
-  useEffect(() => {
-    if (state.score > best && typeof window !== 'undefined' && window.localStorage) {
-      setBest(state.score);
-      localStorage.setItem('2048-best', state.score.toString());
-    }
-  }, [state.score, best]);
+  const [showGameOver, setShowGameOver] = useState(false);
+  const best = useBestScore(state.score);
 
   const doNew = () => {
     setState(initializeGameState());
     setMoveCount(0);
+    setShowGameOver(false);
   };
 
   // simple undo/redo using history/future if present
@@ -111,6 +101,15 @@ export function App() {
   );
 
   useKey(handleMove);
+
+  // Show game over modal when status transitions to Lost
+  useEffect(() => {
+    if (state.status === 'Lost') {
+      setShowGameOver(true);
+    } else {
+      setShowGameOver(false);
+    }
+  }, [state.status]);
 
   // Ensure game is initialized on mount (safe redundancy)
   useEffect(() => {
@@ -213,6 +212,14 @@ export function App() {
 
       {/* Hidden debug info for tests */}
       <div style={{ display: 'none' }}>Can move: {String(canMove)}</div>
+
+      {/* Game Over Modal */}
+      <Modal open={showGameOver} title="Game over" onClose={() => setShowGameOver(false)}>
+        <div data-testid="modal-score">
+          {state.score > best ? `New record: ${state.score}` : `Score: ${state.score}`}
+        </div>
+        <button data-testid="modal-new" onClick={doNew}>New Game</button>
+      </Modal>
     </div>
   );
 }
