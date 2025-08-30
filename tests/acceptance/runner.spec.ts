@@ -3,6 +3,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { Direction, SpawnScript } from '../../engine';
 import { init, move as engineMove, serialize, type GameState } from '../../engine';
+import { createArraySpawnScript } from '../utils/testSpawn';
 
 type Fixture = {
   id: string;
@@ -23,18 +24,6 @@ function boardToGrid(board: number[][]): string {
   return board.map((r) => r.map((v) => String(v).padStart(4, ' ')).join(' ')).join('\n');
 }
 
-// Adapter to convert array format to SpawnScript interface
-function createSpawnScriptAdapter(spawnArray: { row: number; col: number; value: 2 | 4 }[]): SpawnScript {
-  let index = 0;
-  return {
-    nextSpawn: (board: readonly number[][]) => {
-      if (index >= spawnArray.length) return null;
-      const entry = spawnArray[index];
-      index++;
-      return entry;
-    }
-  };
-}
 
 describe('Acceptance fixtures C01..C25', () => {
   const dir = join(process.cwd(), 'tests', 'acceptance', 'fixtures');
@@ -45,8 +34,8 @@ describe('Acceptance fixtures C01..C25', () => {
 
     it(fx.id, () => {
       const N = fx.givenBoard.length;
-      const spawnScript = createSpawnScriptAdapter(fx.spawnScript);
-      const state = init({ N, ...fx.configOverrides, spawn_script: spawnScript });
+      const spawnScript = createArraySpawnScript(fx.spawnScript);
+const state = init({ N, initial_spawns: 0, ...fx.configOverrides, spawn_script: spawnScript });
       // Seed board directly for now
       state.board = fx.givenBoard.map((row) => [...row]);
       const beforeSerialized = serialize(state);

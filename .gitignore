@@ -105,3 +105,14 @@ coverage/
 # Misc
 *.tgz
 *.tar.gz
+
+# Cursor Memory Bank (local only).cursor/
+custom_modes/
+.cursor-mb/
+tasks.md
+activeContext.md
+progress.md
+qa-checks.md
+creative-*.md
+reflect-*.md
+
