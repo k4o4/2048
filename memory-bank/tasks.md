@@ -1,6 +1,5 @@
 ### Fix now
 
-- Wire FF_COLORS into UI styles (classes only), default off.
 - Introduce animation runner behind FF_ANIMATIONS; default off; idempotent commit.
 
 ### Next
@@ -26,3 +25,4 @@
 - Acceptance deterministic spawn harness implemented in tests and green (`tests/acceptance/runner.spec.ts` using `tests/utils/testSpawn.ts`, `initial_spawns: 0`).
 - Unit suite refactored to use `tests/utils/testState.ts`; all unit tests green.
 - Flags scaffold added in `src/flags.ts`; default OFF.
+- FF_COLORS wired via `.ff-colors` class on `app-wrapper`; default OFF; tests green.

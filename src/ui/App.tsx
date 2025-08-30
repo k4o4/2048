@@ -11,6 +11,7 @@ import { makeUISpawnScript } from '../spawn';
 import { Modal } from './Modal';
 import { useBestScore } from './useBestScore';
 import './styles.css';
+import { FF_COLORS } from '../flags';
 
 function useKey(handler: (d: Direction) => void) {
   useEffect(() => {
@@ -146,7 +147,7 @@ export function App() {
   }, [handleMove]);
 
   return (
-    <div className="app-wrapper">
+    <div className={`app-wrapper${FF_COLORS ? ' ff-colors' : ''}`}>
       <div className="header">
         <h1 className="title">2048</h1>
         

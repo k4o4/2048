@@ -11,3 +11,5 @@
 - Baseline green: unit 31/31, acc 25/25. Tests-only changes: testSpawn util + runner wiring. Ready to start feature flags for animations/colors (no behavior change by default).
 2025-08-30 19:45
 - Flags scaffold added (FF_ANIMATIONS/FF_COLORS default off); suites green (unit 32/32, acc 25/25).
+2025-08-30 20:04
+- FF_COLORS wired (gated via .ff-colors on app root); default off; suites green (unit 34/34, acc 25/25).

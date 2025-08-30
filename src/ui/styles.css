@@ -299,3 +299,22 @@
     padding: 16px;
   }
 }
+
+/* Feature Flag: Colors (FF_COLORS)
+   All rules under .ff-colors are inactive by default.
+   When enabled, they provide an alternative color theme via scoped overrides. */
+.ff-colors {
+}
+
+/* Example tile overrides when FF_COLORS is enabled */
+.ff-colors .tile-2 { background: #e6f7ff; color: #0c4a6e; }
+.ff-colors .tile-4 { background: #e0f2fe; color: #0b3b5a; }
+.ff-colors .tile-8 { background: #bae6fd; color: #0a2e44; }
+.ff-colors .tile-16 { background: #fce7f3; color: #831843; }
+.ff-colors .tile-32 { background: #fbcfe8; color: #6b0f33; }
+.ff-colors .tile-64 { background: #f5d0fe; color: #4a044e; }
+.ff-colors .tile-128 { background: #ede9fe; color: #3730a3; }
+.ff-colors .tile-256 { background: #dcfce7; color: #065f46; }
+.ff-colors .tile-512 { background: #d1fae5; color: #064e3b; }
+.ff-colors .tile-1024 { background: #fee2e2; color: #7f1d1d; }
+.ff-colors .tile-2048 { background: #ffedd5; color: #7c2d12; }
