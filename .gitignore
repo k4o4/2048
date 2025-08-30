@@ -106,7 +106,8 @@ coverage/
 *.tgz
 *.tar.gz
 
-# Cursor Memory Bank (local only).cursor/
+# Cursor Memory Bank (local only)
+.cursor/
 custom_modes/
 .cursor-mb/
 tasks.md
@@ -115,4 +116,9 @@ progress.md
 qa-checks.md
 creative-*.md
 reflect-*.md
+memory-bank/
+# Ensure common heavy dirs are ignored
+# (duplicates avoided if already present)
+dist/
+node_modules/
 
