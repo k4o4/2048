@@ -318,3 +318,8 @@
 .ff-colors .tile-512 { background: #d1fae5; color: #064e3b; }
 .ff-colors .tile-1024 { background: #fee2e2; color: #7f1d1d; }
 .ff-colors .tile-2048 { background: #ffedd5; color: #7c2d12; }
+
+/* Feature Flag: Animations (FF_ANIMATIONS)
+   All rules under .ff-anim are inactive by default. */
+.ff-anim {
+}

@@ -1,6 +1,5 @@
 ### Fix now
 
-- Introduce animation runner behind FF_ANIMATIONS; default off; idempotent commit.
 
 ### Next
 
@@ -9,6 +8,7 @@
   - Gate CSS classes/variables and any transitions behind these flags (no logic changes to engine or move semantics).
   - Add a runtime toggle in the UI to flip flags for demos/dev only; compile-time flags control production.
   - Keep DOM structure stable to avoid test fragility; only conditional classes/styles.
+  - Optional: small runtime toggle in UI for FF flags (dev-only).
 
 - Minimal guardrails
   - Deterministic spawn in tests: policy codified and used in acceptance runner.
@@ -26,3 +26,4 @@
 - Unit suite refactored to use `tests/utils/testState.ts`; all unit tests green.
 - Flags scaffold added in `src/flags.ts`; default OFF.
 - FF_COLORS wired via `.ff-colors` class on `app-wrapper`; default OFF; tests green.
+- FF_ANIMATIONS wired via `animRunner` with one-shot onDone; default OFF; tests green.

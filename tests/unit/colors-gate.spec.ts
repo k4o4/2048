@@ -10,7 +10,7 @@ async function renderAppHtml() {
 describe('FF_COLORS gate on app wrapper', () => {
   it('absent when FF_COLORS=false', async () => {
     vi.resetModules();
-    vi.doMock('../../src/flags', async () => ({ FF_COLORS: false }));
+    vi.doMock('../../src/flags', async () => ({ FF_COLORS: false, FF_ANIMATIONS: false }));
     const html = await renderAppHtml();
     expect(html.includes('class="app-wrapper ff-colors"')).toBe(false);
     expect(html.includes('class="app-wrapper"')).toBe(true);
@@ -18,7 +18,7 @@ describe('FF_COLORS gate on app wrapper', () => {
 
   it('present when FF_COLORS=true', async () => {
     vi.resetModules();
-    vi.doMock('../../src/flags', async () => ({ FF_COLORS: true }));
+    vi.doMock('../../src/flags', async () => ({ FF_COLORS: true, FF_ANIMATIONS: false }));
     const html = await renderAppHtml();
     expect(html.includes('class="app-wrapper ff-colors"')).toBe(true);
   });

@@ -12,6 +12,8 @@ import { Modal } from './Modal';
 import { useBestScore } from './useBestScore';
 import './styles.css';
 import { FF_COLORS } from '../flags';
+import { begin } from './animRunner';
+import { FF_ANIMATIONS } from '../flags';
 
 function useKey(handler: (d: Direction) => void) {
   useEffect(() => {
@@ -92,10 +94,30 @@ export function App() {
         const sim = applyMoveNoSpawn(prev.board, dir);
         if (!sim.changed) return prev;
 
-        // Apply the move with spawn using the engine
-        const next = applyMove(prev, dir);
-        if (next !== prev) setMoveCount((m) => m + 1);
-        return next;
+        if (!FF_ANIMATIONS) {
+          // Apply immediately (default behavior)
+          const next = applyMove(prev, dir);
+          if (next !== prev) setMoveCount((m) => m + 1);
+          return next;
+        }
+
+        // FF_ANIMATIONS on: schedule commit once via animRunner
+        let committed = false;
+        const commitOnce = () => {
+          if (committed) return;
+          committed = true;
+          setState((cur) => {
+            if (cur.status === 'Won' && cur.stop_on_win) return cur;
+            const sim2 = applyMoveNoSpawn(cur.board, dir);
+            if (!sim2.changed) return cur;
+            const out = applyMove(cur, dir);
+            if (out !== cur) setMoveCount((m) => m + 1);
+            return out;
+          });
+        };
+
+        begin([], () => '', commitOnce);
+        return prev; // leave state unchanged until animation completes
       });
     },
     [],
@@ -147,7 +169,7 @@ export function App() {
   }, [handleMove]);
 
   return (
-    <div className={`app-wrapper${FF_COLORS ? ' ff-colors' : ''}`}>
+    <div className={`app-wrapper${FF_COLORS ? ' ff-colors' : ''}${FF_ANIMATIONS ? ' ff-anim' : ''}`}>
       <div className="header">
         <h1 className="title">2048</h1>
         
