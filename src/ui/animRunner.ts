@@ -31,3 +31,4 @@ export function begin(actions: AnimAction[], classFor: ClassFor, onDone: () => v
     });
   }, 0);
 }
+

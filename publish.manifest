@@ -1,0 +1,19 @@
+# KEEP_TESTS allowlist (one glob per line)
+src/**
+engine/**
+tests/**
+public/**
+index.html
+package.json
+pnpm-lock.yaml
+tsconfig*.json
+vite.config.*
+vitest.config.*
+playwright.config.*
+eslint.config.js
+.eslintrc*
+prettier.config.*
+.prettierrc*
+README*
+LICENSE
+.gitignore

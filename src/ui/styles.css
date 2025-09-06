@@ -304,20 +304,58 @@
    All rules under .ff-colors are inactive by default.
    When enabled, they provide an alternative color theme via scoped overrides. */
 .ff-colors {
+  /* Surface/theme variables */
+  --bg-grad-from: #0c1020;
+  --bg-grad-to: #0a0f1a;
+  --panel: #101726;
+  --panel-2: #151e31;
+  --tile-empty: #1a2742;
+  --tile-text: #ebf1f8;
+  --badge: #0f1422;
+  --accent: #10b981;
+
+  /* Tile palette (bg/fg) */
+  --tile-2-bg: #e6f7ff;
+  --tile-2-fg: #0c4a6e;
+  --tile-4-bg: #e0f2fe;
+  --tile-4-fg: #0b3b5a;
+  --tile-8-bg: #bae6fd;
+  --tile-8-fg: #0a2e44;
+  --tile-16-bg: #fce7f3;
+  --tile-16-fg: #831843;
+  --tile-32-bg: #fbcfe8;
+  --tile-32-fg: #6b0f33;
+  --tile-64-bg: #f5d0fe;
+  --tile-64-fg: #4a044e;
+  --tile-128-bg: #ede9fe;
+  --tile-128-fg: #3730a3;
+  --tile-256-bg: #dcfce7;
+  --tile-256-fg: #065f46;
+  --tile-512-bg: #d1fae5;
+  --tile-512-fg: #064e3b;
+  --tile-1024-bg: #fee2e2;
+  --tile-1024-fg: #7f1d1d;
+  --tile-2048-bg: #ffedd5;
+  --tile-2048-fg: #7c2d12;
+
+  /* Fallback for unknown/large values (>=4096) */
+  --tile-4096-bg: #fff7ed;
+  --tile-4096-fg: #7c2d12;
 }
 
-/* Example tile overrides when FF_COLORS is enabled */
-.ff-colors .tile-2 { background: #e6f7ff; color: #0c4a6e; }
-.ff-colors .tile-4 { background: #e0f2fe; color: #0b3b5a; }
-.ff-colors .tile-8 { background: #bae6fd; color: #0a2e44; }
-.ff-colors .tile-16 { background: #fce7f3; color: #831843; }
-.ff-colors .tile-32 { background: #fbcfe8; color: #6b0f33; }
-.ff-colors .tile-64 { background: #f5d0fe; color: #4a044e; }
-.ff-colors .tile-128 { background: #ede9fe; color: #3730a3; }
-.ff-colors .tile-256 { background: #dcfce7; color: #065f46; }
-.ff-colors .tile-512 { background: #d1fae5; color: #064e3b; }
-.ff-colors .tile-1024 { background: #fee2e2; color: #7f1d1d; }
-.ff-colors .tile-2048 { background: #ffedd5; color: #7c2d12; }
+/* Apply scoped color mapping when FF_COLORS is enabled */
+.ff-colors .tile { background: var(--tile-4096-bg); color: var(--tile-4096-fg); }
+.ff-colors .tile-2 { background: var(--tile-2-bg); color: var(--tile-2-fg); }
+.ff-colors .tile-4 { background: var(--tile-4-bg); color: var(--tile-4-fg); }
+.ff-colors .tile-8 { background: var(--tile-8-bg); color: var(--tile-8-fg); }
+.ff-colors .tile-16 { background: var(--tile-16-bg); color: var(--tile-16-fg); }
+.ff-colors .tile-32 { background: var(--tile-32-bg); color: var(--tile-32-fg); }
+.ff-colors .tile-64 { background: var(--tile-64-bg); color: var(--tile-64-fg); }
+.ff-colors .tile-128 { background: var(--tile-128-bg); color: var(--tile-128-fg); }
+.ff-colors .tile-256 { background: var(--tile-256-bg); color: var(--tile-256-fg); }
+.ff-colors .tile-512 { background: var(--tile-512-bg); color: var(--tile-512-fg); }
+.ff-colors .tile-1024 { background: var(--tile-1024-bg); color: var(--tile-1024-fg); }
+.ff-colors .tile-2048 { background: var(--tile-2048-bg); color: var(--tile-2048-fg); }
 
 /* Feature Flag: Animations (FF_ANIMATIONS)
    All rules under .ff-anim are inactive by default. */

@@ -10,3 +10,4 @@ describe('animRunner begin (OFF mode)', () => {
     expect(onDone).toHaveBeenCalledTimes(1);
   });
 });
+

@@ -15,3 +15,5 @@
 - FF_COLORS wired (gated via .ff-colors on app root); default off; suites green (unit 34/34, acc 25/25).
 2025-08-30 20:57
 - FF_ANIMATIONS wired (default OFF); suites green; onDone one-shot guard in place.
+2025-08-30 21:50
+- Tile color theme added under FF_COLORS (default OFF); scoped via .ff-colors; no DOM/logic changes; unit and acceptance suites green.

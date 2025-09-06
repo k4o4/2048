@@ -27,3 +27,4 @@
 - Flags scaffold added in `src/flags.ts`; default OFF.
 - FF_COLORS wired via `.ff-colors` class on `app-wrapper`; default OFF; tests green.
 - FF_ANIMATIONS wired via `animRunner` with one-shot onDone; default OFF; tests green.
+- Tile color theme added under `FF_COLORS` (default OFF), scoped via `.ff-colors`; no DOM changes; tests green.
