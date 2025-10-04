@@ -48,7 +48,6 @@
   padding: 20px;
   font-family: 'Inter', system-ui, sans-serif;
   color: var(--tile-text);
-  touch-action: none;
 }
 
 /* Header */
@@ -162,6 +161,7 @@
   grid-template-columns: repeat(4, 100px);
   grid-auto-rows: 100px;
   gap: 10px;
+  touch-action: none;
 }
 
 /* Cells and tiles */
@@ -177,6 +177,7 @@
   font-weight: 700;
   font-size: 2rem;
   transition: all 0.15s ease;
+  touch-action: none;
 }
 
 .tile {
