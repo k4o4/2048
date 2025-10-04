@@ -1,25 +1,50 @@
-import { describe, it, expect, vi } from 'vitest';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
+import { describe, it, expect } from 'vitest';
+import React, { act } from 'react';
+import { createRoot } from 'react-dom/client';
 
-async function renderAppHtml() {
-  const { App } = await import('../../src/ui/App');
-  return renderToString(React.createElement(App));
+function renderAppInto(container: HTMLElement) {
+  const root = createRoot(container);
+  return import('../../src/ui/App').then(({ App }) => {
+    act(() => {
+      root.render(React.createElement(App));
+    });
+    return { root };
+  });
 }
 
-describe('FF_COLORS gate on app wrapper', () => {
-  it('absent when FF_COLORS=false', async () => {
-    vi.resetModules();
-    vi.doMock('../../src/flags', async () => ({ FF_COLORS: false, FF_ANIMATIONS: false }));
-    const html = await renderAppHtml();
-    expect(html.includes('class="app-wrapper ff-colors"')).toBe(false);
-    expect(html.includes('class="app-wrapper"')).toBe(true);
-  });
+describe('Runtime colors gate', () => {
+  it('defaults ON and toggles via checkbox', async () => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
 
-  it('present when FF_COLORS=true', async () => {
-    vi.resetModules();
-    vi.doMock('../../src/flags', async () => ({ FF_COLORS: true, FF_ANIMATIONS: false }));
-    const html = await renderAppHtml();
-    expect(html.includes('class="app-wrapper ff-colors"')).toBe(true);
+    await renderAppInto(container);
+
+    // default ON -> html has data-ff-colors="1" and wrapper has .ff-colors
+    expect(document.documentElement.getAttribute('data-ff-colors')).toBe('1');
+    const wrapper1 = container.querySelector('.app-wrapper') as HTMLElement;
+    expect(wrapper1).toBeTruthy();
+    expect(wrapper1.classList.contains('ff-colors')).toBe(true);
+
+    const toggle = container.querySelector('[data-testid="toggle-colors"]') as HTMLInputElement;
+    expect(toggle).toBeTruthy();
+    expect(toggle.checked).toBe(true);
+
+    // turn OFF
+    await act(async () => {
+      toggle.click();
+      await Promise.resolve();
+    });
+    expect(document.documentElement.hasAttribute('data-ff-colors')).toBe(false);
+    const wrapper2 = container.querySelector('.app-wrapper') as HTMLElement;
+    expect(wrapper2.classList.contains('ff-colors')).toBe(false);
+
+    // turn ON again
+    await act(async () => {
+      toggle.click();
+      await Promise.resolve();
+    });
+    expect(document.documentElement.getAttribute('data-ff-colors')).toBe('1');
+    const wrapper3 = container.querySelector('.app-wrapper') as HTMLElement;
+    expect(wrapper3.classList.contains('ff-colors')).toBe(true);
   });
 });
