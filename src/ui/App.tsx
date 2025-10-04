@@ -12,7 +12,7 @@ import { Modal } from './Modal';
 import { useBestScore } from './useBestScore';
 import './styles.css';
 import { begin } from './animRunner';
-import { FF_ANIMATIONS, FF_COLORS } from '../flags';
+import { FF_ANIMATIONS } from '../flags';
 
 function useKey(handler: (d: Direction) => void) {
   useEffect(() => {
@@ -65,29 +65,6 @@ export function App() {
   const [moveCount, setMoveCount] = useState(0);
   const [showGameOver, setShowGameOver] = useState(false);
   const best = useBestScore(state.score);
-
-  // Runtime colors toggle (default ON, persisted)
-  const [colorsOn, setColorsOn] = useState<boolean>(() => {
-    try {
-      const v = localStorage.getItem('ff_colors');
-      return v === null ? true : v === '1';
-    } catch {
-      return true;
-    }
-  });
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (colorsOn) root.setAttribute('data-ff-colors', '1');
-    else root.removeAttribute('data-ff-colors');
-    // Persist default so Colors remains enabled by default across reloads
-    try {
-      const existing = localStorage.getItem('ff_colors');
-      if (existing === null) {
-        localStorage.setItem('ff_colors', colorsOn ? '1' : '0');
-      }
-    } catch {}
-  }, [colorsOn]);
 
   const doNew = () => {
     setState(initializeGameState());
@@ -191,7 +168,7 @@ export function App() {
   }, [handleMove]);
 
   return (
-    <div className={`app-wrapper${FF_ANIMATIONS ? ' ff-anim' : ''}${colorsOn ? ' ff-colors' : ''}`}>
+    <div className={`app-wrapper${FF_ANIMATIONS ? ' ff-anim' : ''}`}>
       <div className="header">
         <h1 className="title">2048</h1>
         
@@ -224,19 +201,6 @@ export function App() {
               onChange={toggleContinue}
             />
             <span>Continue after win</span>
-          </div>
-          <div className="toggle-container">
-            <input
-              data-testid="toggle-colors"
-              type="checkbox"
-              checked={colorsOn}
-              onChange={(e) => {
-                const next = e.currentTarget.checked;
-                setColorsOn(next);
-                try { localStorage.setItem('ff_colors', next ? '1' : '0'); } catch {}
-              }}
-            />
-            <span>Colors</span>
           </div>
         </div>
       </div>

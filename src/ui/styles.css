@@ -305,10 +305,7 @@
 .ff-anim {
 }
 
-/* Feature Flag: Colors (FF_COLORS)
-   Note: Do NOT override background/panel variables here to keep the
-   app background unchanged when Colors are enabled. Only tile palette. */
-.ff-colors {
+:root {
   /* Tile palette (specified RGBs) */
   --tile-0-bg:   #cdc1b4; /* 0 */
   --tile-0-fg:   #776e65;
@@ -340,19 +337,17 @@
   --tile-4096-fg: #f9f6f2;
 }
 
-/* Apply scoped color mapping when FF_COLORS is enabled or runtime gate is set */
-:root[data-ff-colors="1"] .tile { background: var(--tile-4096-bg); color: var(--tile-4096-fg); }
-.ff-colors .tile { background: var(--tile-4096-bg); color: var(--tile-4096-fg); }
-:root[data-ff-colors="1"] .tile.tile-2, .ff-colors .tile.tile-2 { background: var(--tile-2-bg); color: var(--tile-2-fg); }
-:root[data-ff-colors="1"] .tile.tile-4, .ff-colors .tile.tile-4 { background: var(--tile-4-bg); color: var(--tile-4-fg); }
-:root[data-ff-colors="1"] .tile.tile-8, .ff-colors .tile.tile-8 { background: var(--tile-8-bg); color: var(--tile-8-fg); }
-:root[data-ff-colors="1"] .tile.tile-16, .ff-colors .tile.tile-16 { background: var(--tile-16-bg); color: var(--tile-16-fg); }
-:root[data-ff-colors="1"] .tile.tile-32, .ff-colors .tile.tile-32 { background: var(--tile-32-bg); color: var(--tile-32-fg); }
-:root[data-ff-colors="1"] .tile.tile-64, .ff-colors .tile.tile-64 { background: var(--tile-64-bg); color: var(--tile-64-fg); }
-:root[data-ff-colors="1"] .tile.tile-128, .ff-colors .tile.tile-128 { background: var(--tile-128-bg); color: var(--tile-128-fg); }
-:root[data-ff-colors="1"] .tile.tile-256, .ff-colors .tile.tile-256 { background: var(--tile-256-bg); color: var(--tile-256-fg); }
-:root[data-ff-colors="1"] .tile.tile-512, .ff-colors .tile.tile-512 { background: var(--tile-512-bg); color: var(--tile-512-fg); }
-:root[data-ff-colors="1"] .tile.tile-1024, .ff-colors .tile.tile-1024 { background: var(--tile-1024-bg); color: var(--tile-1024-fg); }
-:root[data-ff-colors="1"] .tile.tile-2048, .ff-colors .tile.tile-2048 { background: var(--tile-2048-bg); color: var(--tile-2048-fg); }
+.tile { background: var(--tile-4096-bg); color: var(--tile-4096-fg); }
+.tile.tile-2 { background: var(--tile-2-bg); color: var(--tile-2-fg); }
+.tile.tile-4 { background: var(--tile-4-bg); color: var(--tile-4-fg); }
+.tile.tile-8 { background: var(--tile-8-bg); color: var(--tile-8-fg); }
+.tile.tile-16 { background: var(--tile-16-bg); color: var(--tile-16-fg); }
+.tile.tile-32 { background: var(--tile-32-bg); color: var(--tile-32-fg); }
+.tile.tile-64 { background: var(--tile-64-bg); color: var(--tile-64-fg); }
+.tile.tile-128 { background: var(--tile-128-bg); color: var(--tile-128-fg); }
+.tile.tile-256 { background: var(--tile-256-bg); color: var(--tile-256-fg); }
+.tile.tile-512 { background: var(--tile-512-bg); color: var(--tile-512-fg); }
+.tile.tile-1024 { background: var(--tile-1024-bg); color: var(--tile-1024-fg); }
+.tile.tile-2048 { background: var(--tile-2048-bg); color: var(--tile-2048-fg); }
 
-/* (Intentionally no override for .cell under Colors; empty cells stay dark) */
+/* (Intentionally no override for .cell; empty cells stay dark) */

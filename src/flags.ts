@@ -1,6 +1,6 @@
 /**
  * Feature flags for the UI.
- * Defaults: COLORS = ON, ANIMATIONS = OFF.
+ * Defaults: animations OFF.
  */
 
 /** Coerces environment-like values to boolean. Only "1"/"true"/true are treated as true. */
@@ -18,7 +18,3 @@ export function coerceFlag(input: unknown): boolean {
 const env: any = (import.meta as any)?.env ?? {};
 // Animations default OFF unless explicitly enabled
 export const FF_ANIMATIONS: boolean = coerceFlag(env.VITE_FF_ANIMATIONS);
-// Colors default ON unless explicitly disabled
-export const FF_COLORS: boolean = (env.VITE_FF_COLORS === undefined)
-  ? true
-  : coerceFlag(env.VITE_FF_COLORS);
