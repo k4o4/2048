@@ -48,6 +48,7 @@
   padding: 20px;
   font-family: 'Inter', system-ui, sans-serif;
   color: var(--tile-text);
+  touch-action: none;
 }
 
 /* Header */

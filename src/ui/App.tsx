@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from 'react';
+import { useEffect, useMemo, useState, useCallback, useRef } from 'react';
 import {
   init as initializeGame,
   move as applyMove,
@@ -48,6 +48,9 @@ function Cell({ value, r, c, moveCount }: { value: number; r: number; c: number;
   );
 }
 
+const SWIPE_THRESHOLD = 30;
+const ALLOWED_TOUCH_TIME = 400;
+
 export function App() {
   // one SpawnScript per session
   const spawn = useMemo(() => makeUISpawnScript(), []);
@@ -65,6 +68,7 @@ export function App() {
   const [moveCount, setMoveCount] = useState(0);
   const [showGameOver, setShowGameOver] = useState(false);
   const best = useBestScore(state.score);
+  const touchStart = useRef<{ x: number; y: number; time: number } | null>(null);
 
   const doNew = () => {
     setState(initializeGameState());
@@ -124,6 +128,51 @@ export function App() {
 
   useKey(handleMove);
 
+  useEffect(() => {
+    const target = document.getElementById('app-root-swipe-target');
+    if (!target) return;
+
+    const onTouchStart = (event: TouchEvent) => {
+      if (event.touches.length !== 1) return;
+      const touch = event.touches[0];
+      touchStart.current = { x: touch.clientX, y: touch.clientY, time: Date.now() };
+    };
+
+    const onTouchEnd = (event: TouchEvent) => {
+      const start = touchStart.current;
+      touchStart.current = null;
+      if (!start) return;
+
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - start.x;
+      const dy = touch.clientY - start.y;
+      const dt = Date.now() - start.time;
+      if (dt > ALLOWED_TOUCH_TIME) return;
+
+      if (Math.abs(dx) < SWIPE_THRESHOLD && Math.abs(dy) < SWIPE_THRESHOLD) return;
+
+      const absX = Math.abs(dx);
+      const absY = Math.abs(dy);
+      let dir: Direction;
+      if (absX > absY) {
+        dir = dx > 0 ? 'Right' : 'Left';
+      } else {
+        dir = dy > 0 ? 'Down' : 'Up';
+      }
+
+      handleMove(dir);
+      event.preventDefault();
+    };
+
+    target.addEventListener('touchstart', onTouchStart, { passive: true });
+    target.addEventListener('touchend', onTouchEnd, { passive: false });
+
+    return () => {
+      target.removeEventListener('touchstart', onTouchStart);
+      target.removeEventListener('touchend', onTouchEnd);
+    };
+  }, [handleMove]);
+
   // Show game over modal when status transitions to Lost
   useEffect(() => {
     if (state.status === 'Lost') {
@@ -168,7 +217,7 @@ export function App() {
   }, [handleMove]);
 
   return (
-    <div className={`app-wrapper${FF_ANIMATIONS ? ' ff-anim' : ''}`}>
+    <div id="app-root-swipe-target" className={`app-wrapper${FF_ANIMATIONS ? ' ff-anim' : ''}`}>
       <div className="header">
         <h1 className="title">2048</h1>
         
